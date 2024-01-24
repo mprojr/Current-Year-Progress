@@ -80,10 +80,17 @@ namespace Year_Percentage_Proj
         private void UpdateTimeUntilNextPercent()
         {
             int year = currentDate.Year;
+
+            int totalDays = DateTime.IsLeapYear(year) ? 366 : 365;
+
             DateTime startOfYear = new DateTime(year, 1, 1);
+
             DateTime endOfYear = new DateTime(year, 12, 31, 23, 59, 59);
+
             double totalSecondsInYear = (endOfYear - startOfYear).TotalSeconds;
+
             double elapsedSeconds = (currentDate - startOfYear).TotalSeconds;
+
             double currentPercentage = (elapsedSeconds / totalSecondsInYear) * 100;
 
             // find next whole percentage and calculate seconds until percentage
@@ -91,7 +98,7 @@ namespace Year_Percentage_Proj
             double secondsUntilNextPercent = ((nextWholePercentage / 100) * totalSecondsInYear) - elapsedSeconds;
 
             TimeSpan time = TimeSpan.FromSeconds(secondsUntilNextPercent);
-            string timeText = string.Format("{0:D2}h {1:D2}m {2:D2}s", time.Hours, time.Minutes, time.Seconds);
+            string timeText = string.Format("{0:D1}d {1:D2}h {2:D2}m {3:D2}s", time.Days, time.Hours, time.Minutes, time.Seconds);
             TimeUntilNextPercentTextBlock.Text = $"Time until {nextWholePercentage}%: " + timeText;
         }
 
